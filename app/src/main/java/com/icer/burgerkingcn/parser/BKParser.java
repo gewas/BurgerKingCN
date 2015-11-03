@@ -23,10 +23,7 @@ public class BKParser {
 
     public static final String KW_CDID = "_bhtg_logurl";
 
-    public static final String KW_FNSS = "\"FNSS";
-    public static final String KW_FNSR = "\"FNSR";
-    public static final String KW_IoNF = "IoNF";
-    public static final String KW_PostedFNS = "PostedFNS";
+    public static final String RE_FNS = "id=\"FNS";
 
     public static final String KW_Progress = "\"ProgressPercentage\"";
 
@@ -151,8 +148,7 @@ public class BKParser {
                     res.add(bodyBuilder.build());
                 } else if ("下一步".equals(nextButton)) {
                     FormEncodingBuilder bodyBuilder = new FormEncodingBuilder();
-
-
+                    getFNSData(xmlString);
                     res.add(bodyBuilder.build());
                 }
             }
@@ -161,6 +157,34 @@ public class BKParser {
         log(LINE_DIVIDER);
         log("BODIES: " + res);
         log(LINE_DIVIDER);
+        return res;
+    }
+
+    private static Map<String, String> getFNSData(String xmlString) {
+        Map<String, String> res = new HashMap<>();
+        {
+            String tIoNF = xmlString.split("\"IoNF\" value=\"")[1];
+            tIoNF = tIoNF.substring(0, tIoNF.indexOf("\""));
+            res.put("IoNF", tIoNF);
+        }
+        {
+            String tPostedFNS = xmlString.split("\"PostedFNS\" value=\"")[1];
+            tPostedFNS = tPostedFNS.substring(0, tPostedFNS.indexOf("\""));
+            res.put("PostedFNS", tPostedFNS);
+        }
+        {
+            String[] temp = xmlString.split(RE_FNS);
+            List<String> tFNS = new ArrayList<>();
+            for (int i = 0; i < temp.length; i++) {
+                if (temp[i].startsWith("S") || temp[i].startsWith("R")) {
+                    String a = temp[i].substring(0, temp[i].indexOf("\""));
+                    if (a.matches("[SR][0-9]{6}"))
+                        tFNS.add(a);
+                }
+            }
+
+
+        }
         return res;
     }
 
