@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">汉堡王TooL</string>
+    <string name="plz_input_ticket_code">客户调查码</string>
+    <string name="plz_input_ticket_code_correctly">请正确输入客户调查码</string>
+    <string name="get_val_code">获取网站验证码</string>
+    <string name="val_code">网站验证码</string>
+    <string name="network_requesting">请耐心等待</string>
+    <string name="network_error">请求出错</string>
+</resources>
