@@ -90,10 +90,13 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
             String tXmlString = go(null);
             while (BKParser.isFinish(tXmlString)) {
                 tXmlString = go(tXmlString);
-                if (tXmlString == null && tXmlString.length() == 0)
+                if (tXmlString == null || tXmlString.length() == 0)
                     break;
             }
-            mFinalResult = BKParser.getFinalResult(tXmlString);
+            if (tXmlString != null && tXmlString.length() > 0)
+                mFinalResult = BKParser.getFinalResult(tXmlString);
+            else
+                mFinalResult = RESULT_FAILURE;
         } catch (IOException e) {
             e.printStackTrace();
             mFinalResult = RESULT_FAILURE;
