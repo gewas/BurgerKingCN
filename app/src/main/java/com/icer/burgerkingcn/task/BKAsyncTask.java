@@ -57,6 +57,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
                 Map<String, List<String>> rMap = new HashMap<>(requestHeaders);
                 if (!mCookies.isEmpty()) {
                     rMap.put(COOKIE, mCookies);
+                    log(LINE_DIVIDER);
                     log(COOKIE + ": " + mCookies);
                     log(LINE_DIVIDER);
                 }
@@ -76,7 +77,9 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     }
 
     private void refreshCookie(List<String> cookies) {
+        log(LINE_DIVIDER);
         log(SET_COOKIE + ": " + cookies);
+        log(LINE_DIVIDER);
         for (String str : cookies)
             if (!mCookies.contains(str))
                 mCookies.add(str);
@@ -85,7 +88,9 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         mCode = params[0];
+        log(LINE_DIVIDER);
         log("CODE: " + mCode);
+        log(LINE_DIVIDER);
         try {
             String tXmlString = go(null);
             while (!BKParser.isFinish(tXmlString)) {
@@ -112,6 +117,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
         for (int i = 0; i < urls.size(); i++) {
 
             String url = urls.get(i);
+            log(LINE_DIVIDER);
             log("URL: " + url);
             log(LINE_DIVIDER);
 
@@ -122,7 +128,9 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
 
             Response response = mOkHttpClient.newCall(request).execute();
             res = response.body().string();
+            log(LINE_DIVIDER);
             log(res);
+            log(LINE_DIVIDER);
         }
         return res;
     }
