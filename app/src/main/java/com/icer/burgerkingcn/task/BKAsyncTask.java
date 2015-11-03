@@ -94,6 +94,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
             String tXmlString = go(null);
             while (!BKParser.isFinish(tXmlString)) {
                 tXmlString = go(tXmlString);
+                publishProgress(BKParser.getProgress(tXmlString));
                 if (tXmlString == null || tXmlString.length() == 0)
                     break;
             }
@@ -135,6 +136,13 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     }
 
     @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+        if (values != null && values.length > 0)
+            mBKListener.onProgress(values[0]);
+    }
+
+    @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if (!RESULT_FAILURE.equals(s))
@@ -150,6 +158,8 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
 
     public interface BKListener {
         void onSuccess(String result);
+
+        void onProgress(String progress);
 
         void onFailure();
     }

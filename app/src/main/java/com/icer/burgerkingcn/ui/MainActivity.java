@@ -64,6 +64,11 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
+            public void onProgress(String progress) {
+                mTextView.setText(progress);
+            }
+
+            @Override
             public void onFailure() {
                 showToast(R.string.network_error);
                 setIsRequesting(false);
