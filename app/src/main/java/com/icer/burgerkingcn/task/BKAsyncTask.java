@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by icer on 2015/11/3.
@@ -49,6 +50,9 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
 
     private void initOkHttp() {
         mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
+        mOkHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
+        mOkHttpClient.setWriteTimeout(60, TimeUnit.SECONDS);
         mOkHttpClient.setCookieHandler(new CookieHandler() {
             @Override
             public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {

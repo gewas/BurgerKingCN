@@ -103,9 +103,11 @@ public class BKParser {
                 res.add(ROOT_URL + "CDID.aspx" + params);
             }
             {
-                String next = xmlString.split("action=\"")[1];
-                String urlTail = next.substring(0, next.indexOf('\"'));
-                res.add(ROOT_URL + urlTail);
+                if (xmlString.contains("action=\"")) {
+                    String next = xmlString.split("action=\"")[1];
+                    String urlTail = next.substring(0, next.indexOf('\"'));
+                    res.add(ROOT_URL + urlTail);
+                }
             }
         }
         log(LINE_DIVIDER);
@@ -122,7 +124,7 @@ public class BKParser {
             if (xmlString.contains(KW_CDID)) {
                 res.add(null);
             }
-            {
+            if (xmlString.contains("\"NextButton\" value=\"")) {
                 String nextButton = xmlString.split("\"NextButton\" value=\"")[1];
                 nextButton = nextButton.substring(0, nextButton.indexOf("\""));
                 if ("继续".equals(nextButton)) {
@@ -150,7 +152,6 @@ public class BKParser {
                     FormEncodingBuilder bodyBuilder = new FormEncodingBuilder();
                     Map<String, String> kvs = getFNSData(xmlString);
                     for (String key : kvs.keySet()) {
-                        bodyBuilder.add(key, kvs.get(key));
                         bodyBuilder.add(key, kvs.get(key));
                     }
                     res.add(bodyBuilder.build());
