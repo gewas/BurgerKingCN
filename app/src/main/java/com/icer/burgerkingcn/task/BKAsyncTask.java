@@ -57,7 +57,8 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
                 Map<String, List<String>> rMap = new HashMap<>(requestHeaders);
                 if (!mCookies.isEmpty()) {
                     rMap.put(COOKIE, mCookies);
-                    System.out.println(mCookies.toString());
+                    log(COOKIE + ": " + mCookies);
+                    log(LINE_DIVIDER);
                 }
                 return rMap;
             }
@@ -75,7 +76,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     }
 
     private void refreshCookie(List<String> cookies) {
-        System.out.println(SET_COOKIE + " : " + cookies);
+        log(SET_COOKIE + ": " + cookies);
         for (String str : cookies)
             if (!mCookies.contains(str))
                 mCookies.add(str);
@@ -85,9 +86,14 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         mCode = params[0];
         log("CODE: " + mCode);
-
         try {
-            go(null);
+            String tXmlString = go(null);
+            while (BKParser.isFinish(tXmlString)) {
+                tXmlString = go(tXmlString);
+                if (tXmlString == null && tXmlString.length() == 0)
+                    break;
+            }
+            mFinalResult = BKParser.getFinalResult(tXmlString);
         } catch (IOException e) {
             e.printStackTrace();
             mFinalResult = RESULT_FAILURE;
@@ -98,17 +104,17 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
 
     private String go(String xmlString) throws IOException {
         String res = "";
-        String[] urls = BKParser.getNextRequestUrl(xmlString);
-        RequestBody[] bodies = BKParser.getNextRequestBody(xmlString);
-        for (int i = 0; i < urls.length; i++) {
+        List<String> urls = BKParser.getNextRequestUrls(xmlString);
+        List<RequestBody> bodies = BKParser.getNextRequestBodies(xmlString);
+        for (int i = 0; i < urls.size(); i++) {
 
-            String url = urls[i];
-            System.out.println(url);
-            System.out.println(LINE_DIVIDER);
+            String url = urls.get(i);
+            log("URL: " + url);
+            log(LINE_DIVIDER);
 
             Request request = new Request.Builder()
                     .url(url)
-                    .method(bodies[i] != null ? "POST" : "GET", bodies[i])
+                    .method(bodies.get(i) != null ? "POST" : "GET", bodies.get(i))
                     .build();
 
             Response response = mOkHttpClient.newCall(request).execute();
