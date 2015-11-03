@@ -88,7 +88,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
         log("CODE: " + mCode);
         try {
             String tXmlString = go(null);
-            while (BKParser.isFinish(tXmlString)) {
+            while (!BKParser.isFinish(tXmlString)) {
                 tXmlString = go(tXmlString);
                 if (tXmlString == null || tXmlString.length() == 0)
                     break;
