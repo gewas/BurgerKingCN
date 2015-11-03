@@ -148,7 +148,11 @@ public class BKParser {
                     res.add(bodyBuilder.build());
                 } else if ("下一步".equals(nextButton)) {
                     FormEncodingBuilder bodyBuilder = new FormEncodingBuilder();
-                    getFNSData(xmlString);
+                    Map<String, String> kvs = getFNSData(xmlString);
+                    for (String key : kvs.keySet()) {
+                        bodyBuilder.add(key, kvs.get(key));
+                        bodyBuilder.add(key, kvs.get(key));
+                    }
                     res.add(bodyBuilder.build());
                 }
             }
@@ -182,7 +186,13 @@ public class BKParser {
                         tFNS.add(a);
                 }
             }
-
+            for (String key : tFNS) {
+                String value = Q_MAP.get(key);
+                if (value == null)
+                    log("CAN'T FIND " + key);
+                else
+                    res.put(key, value);
+            }
 
         }
         return res;
