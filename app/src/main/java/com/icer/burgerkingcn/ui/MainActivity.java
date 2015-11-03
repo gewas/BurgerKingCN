@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.icer.burgerkingcn.R;
-import com.icer.burgerkingcn.app.AppConfig;
 import com.icer.burgerkingcn.app.BaseActivity;
 import com.icer.burgerkingcn.task.BKAsyncTask;
 
@@ -29,8 +28,6 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         mTextView = (TextView) findViewById(R.id.tv);
         mEditText = (EditText) findViewById(R.id.et);
-        if (AppConfig.IS_DEBUG_MODE)
-            mEditText.setText("1908011201100146");
 
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
