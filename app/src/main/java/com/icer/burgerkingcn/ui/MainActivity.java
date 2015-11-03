@@ -1,5 +1,6 @@
 package com.icer.burgerkingcn.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ public class MainActivity extends BaseActivity {
     private TextView mTextView;
     private EditText mEditText;
 
+    private ProgressDialog mProgressDialog;
     private boolean mIsRequesting;
 
     @Override
@@ -27,8 +29,9 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         mTextView = (TextView) findViewById(R.id.tv);
         mEditText = (EditText) findViewById(R.id.et);
-        if(AppConfig.IS_DEBUG_MODE)
+        if (AppConfig.IS_DEBUG_MODE)
             mEditText.setText("1908011201100146");
+
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,22 +47,27 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        mProgressDialog = new ProgressDialog(this, android.R.style.Theme_DeviceDefault_Dialog);
     }
 
     private void startRequest(String code) {
         mTextView.setText("");
         setIsRequesting(true);
+        mProgressDialog.show();
         new BKAsyncTask(new BKAsyncTask.BKListener() {
             @Override
             public void onSuccess(String result) {
                 mTextView.setText(result);
                 setIsRequesting(false);
+                mProgressDialog.dismiss();
             }
 
             @Override
             public void onFailure() {
                 showToast(R.string.network_error);
                 setIsRequesting(false);
+                mProgressDialog.dismiss();
             }
         }).execute(code);
     }

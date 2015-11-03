@@ -21,7 +21,7 @@ public class BKParser {
         return res;
     }
 
-    public static List<RequestBody> getNextRequestBodies(String xmlString) {
+    public static List<RequestBody> getNextRequestBodies(String xmlString, String ticketCode) {
         List<RequestBody> res = new ArrayList<>();
         if (xmlString == null)
             res.add(null);

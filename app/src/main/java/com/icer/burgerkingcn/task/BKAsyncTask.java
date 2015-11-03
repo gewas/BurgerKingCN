@@ -34,9 +34,7 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
     private BKListener mBKListener;
     private OkHttpClient mOkHttpClient;
     private List<String> mCookies;
-    private String mCode;
-
-    private String mFinalResult;
+    private String mTicketCode;
 
     public BKAsyncTask(BKListener BKListener) {
         mBKListener = BKListener;
@@ -87,10 +85,11 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        mCode = params[0];
+        mTicketCode = params[0];
         log(LINE_DIVIDER);
-        log("CODE: " + mCode);
+        log("CODE: " + mTicketCode);
         log(LINE_DIVIDER);
+        String finalResult;
         try {
             String tXmlString = go(null);
             while (!BKParser.isFinish(tXmlString)) {
@@ -99,21 +98,21 @@ public class BKAsyncTask extends AsyncTask<String, String, String> {
                     break;
             }
             if (tXmlString != null && tXmlString.length() > 0)
-                mFinalResult = BKParser.getFinalResult(tXmlString);
+                finalResult = BKParser.getFinalResult(tXmlString);
             else
-                mFinalResult = RESULT_FAILURE;
+                finalResult = RESULT_FAILURE;
         } catch (IOException e) {
             e.printStackTrace();
-            mFinalResult = RESULT_FAILURE;
+            finalResult = RESULT_FAILURE;
         }
 
-        return mFinalResult;
+        return finalResult;
     }
 
     private String go(String xmlString) throws IOException {
         String res = "";
         List<String> urls = BKParser.getNextRequestUrls(xmlString);
-        List<RequestBody> bodies = BKParser.getNextRequestBodies(xmlString);
+        List<RequestBody> bodies = BKParser.getNextRequestBodies(xmlString, mTicketCode);
         for (int i = 0; i < urls.size(); i++) {
 
             String url = urls.get(i);
