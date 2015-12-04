@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
         });
 
         mProgressDialog = new ProgressDialog(this, android.R.style.Theme_DeviceDefault_Dialog);
+        mProgressDialog.setCancelable(false);
     }
 
     private void startRequest(String code) {
