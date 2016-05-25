@@ -48,4 +48,13 @@
         android:layout_marginRight="32dp"
         android:text="@string/get_val_code"
         android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:lineSpacingMultiplier="1.7"
+        android:textColor="#CCCCCC"
+        android:text="@string/motto"
+        android:textDirection="rtl"/>
 </RelativeLayout>

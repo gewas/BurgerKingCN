@@ -6,4 +6,5 @@
     <string name="val_code">网站验证码</string>
     <string name="network_requesting">请耐心等待</string>
     <string name="network_error">请求出错</string>
+    <string name="motto">A\nBite\nof\nSin</string>
 </resources>
