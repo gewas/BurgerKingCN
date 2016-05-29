@@ -65,6 +65,6 @@
         android:layout_alignParentRight="true"
         android:lineSpacingMultiplier="1.7"
         android:text="@string/motto"
-        android:textColor="#EEEEEE"
+        android:textColor="#E0E0E0"
         android:textDirection="rtl"/>
 </RelativeLayout>
