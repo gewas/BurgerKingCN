@@ -4,11 +4,16 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.icer.burgerkingcn.R;
 import com.icer.burgerkingcn.app.BaseActivity;
 import com.icer.burgerkingcn.task.BKAsyncTask;
+
+import net.youmi.android.AdManager;
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
 
 public class MainActivity extends BaseActivity {
 
@@ -23,11 +28,18 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        AdManager.getInstance(this).init("2b44afd35935cc6e", "21d7750ac359e818");
     }
 
     private void initView() {
         mTextView = (TextView) findViewById(R.id.tv);
         mEditText = (EditText) findViewById(R.id.et);
+
+        {
+            AdView adView = new AdView(this, AdSize.FIT_SCREEN);
+            LinearLayout adLayout = (LinearLayout) findViewById(R.id.adLayout);
+            adLayout.addView(adView);
+        }
 
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
